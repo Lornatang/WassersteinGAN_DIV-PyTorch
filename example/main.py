@@ -40,6 +40,7 @@ import torchvision.utils as vutils
 
 from wgandiv_pytorch import Discriminator
 from wgandiv_pytorch import Generator
+from wgandiv_pytorch import calculate_gradient_penalty
 
 parser = argparse.ArgumentParser(description="PyTorch Wasserstein GAN DIV")
 parser.add_argument("--dataroot", type=str, default="./data",
@@ -308,7 +309,7 @@ def train(dataloader, generator, discriminator, optimizerG, optimizerD, epoch, a
     batch_size = real_images.size(0)
 
     # Sample noise as generator input
-    noise = torch.randn(batch_size, 100)
+    noise = torch.randn(batch_size, 100, requires_grad=False)
     if args.gpu is not None:
       noise = noise.cuda(args.gpu, non_blocking=True)
 
@@ -326,38 +327,15 @@ def train(dataloader, generator, discriminator, optimizerG, optimizerD, epoch, a
     fake_images = generator(noise)
 
     # Train with fake
-    fake_output = discriminator(fake_images.detach())
+    fake_output = discriminator(fake_images)
     errD_fake = torch.mean(fake_output)
     D_G_z1 = fake_output.mean().item()
 
     # Calculate W-div gradient penalty
-    real_grad_outputs = torch.full((real_images.size(0),), 1)
-    fake_grad_outputs = torch.full((fake_images.size(0),), 1)
-
-    real_gradient = autograd.grad(
-      outputs=real_output,
-      inputs=real_images,
-      grad_outputs=real_grad_outputs,
-      create_graph=True,
-      retain_graph=True,
-      only_inputs=True,
-    )[0]
-    fake_gradient = autograd.grad(
-      outputs=fake_output,
-      inputs=fake_images,
-      grad_outputs=fake_grad_outputs,
-      create_graph=True,
-      retain_graph=True,
-      only_inputs=True,
-    )[0]
-
-    real_gradient_norm = real_gradient.view(real_gradient.size(0), -1).pow(2).sum(1) ** (p / 2)
-    fake_gradient_norm = fake_gradient.view(fake_gradient.size(0), -1).pow(2).sum(1) ** (p / 2)
-
-    div_gp = torch.mean(real_gradient_norm + fake_gradient_norm) * k / 2
+    gradient_penalty = calculate_gradient_penalty(real_images, fake_images, real_output, fake_output, k, p, args.gpu)
 
     # Add the gradients from the all-real and all-fake batches
-    errD = errD_real + errD_fake + div_gp
+    errD = errD_real + errD_fake + gradient_penalty
     errD.backward()
     # Update D
     optimizerD.step()
