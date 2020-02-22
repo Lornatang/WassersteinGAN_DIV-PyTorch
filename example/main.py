@@ -25,7 +25,6 @@ import random
 import warnings
 
 import torch
-import torch.autograd as autograd
 import torch.backends.cudnn as cudnn
 import torch.distributed as dist
 import torch.multiprocessing as mp
