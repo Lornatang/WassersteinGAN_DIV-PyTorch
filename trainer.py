@@ -101,13 +101,14 @@ class Trainer(object):
 
         # Parameters of pre training model.
         self.epochs = int(int(args.iters) // len(self.dataloader))
-        self.optimizer_g = torch.optim.RMSprop(self.generator.parameters(), lr=args.lr)
-        self.optimizer_d = torch.optim.RMSprop(self.discriminator.parameters(), lr=args.lr)
+        self.optimizer_d = torch.optim.Adam(self.discriminator.parameters(), lr=args.lr, betas=(0.5, 0.999))
+        self.optimizer_g = torch.optim.Adam(self.generator.parameters(), lr=args.lr, betas=(0.5, 0.999))
 
         logger.info(f"Model training parameters:\n"
                     f"\tIters is {int(args.iters)}\n"
                     f"\tEpoch is {int(self.epochs)}\n"
-                    f"\tOptimizer RMSprop\n"
+                    f"\tOptimizer Adam\n"
+                    f"\tBetas is (0.5, 0.999)\n"
                     f"\tLearning rate {args.lr}")
 
     def run(self):
@@ -147,7 +148,6 @@ class Trainer(object):
                 real_output = self.discriminator(real_images)
                 errD_real = -torch.mean(real_output)
                 D_x = real_output.mean().item()
-                errD_real.backward()
 
                 # Generate fake image batch with G
                 fake_images = self.generator(noise)
@@ -156,7 +156,6 @@ class Trainer(object):
                 fake_output = self.discriminator(fake_images)
                 errD_fake = torch.mean(fake_output)
                 D_G_z1 = fake_output.mean().item()
-                errD_fake.backward()
 
                 # Calculate W-div gradient penalty
                 gradient_penalty = calculate_gradient_penalty(real_images, fake_images,
@@ -165,6 +164,7 @@ class Trainer(object):
 
                 # Add the gradients from the all-real and all-fake batches
                 errD = errD_real + errD_fake + gradient_penalty
+                errD.backward()
                 # Update D
                 self.optimizer_d.step()
 
