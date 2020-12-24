@@ -21,9 +21,9 @@ __all__ = [
 ]
 
 model_urls = {
-    "mnist": "https://github.com/Lornatang/WassersteinGAN-PyTorch/releases/download/0.1.0/mnist-469fd083.pth",
-    "fashion-mnist": "https://github.com/Lornatang/WassersteinGAN-PyTorch/releases/download/0.1.0/fashion_mnist-9681eda0.pth",
-    "cifar10": "https://github.com/Lornatang/WassersteinGAN-PyTorch/releases/download/0.1.0/cifar10-9681eda0.pth"
+    "mnist": "https://github.com/Lornatang/WassersteinGAN_DIV-PyTorch/releases/download/0.1.0/mnist-bbe95f79.pth",
+    "fashion-mnist": "https://github.com/Lornatang/WassersteinGAN_DIV-PyTorch/releases/download/0.1.0/fashion_mnist-7569f5dd.pth",
+    "cifar10": "https://github.com/Lornatang/WassersteinGAN_DIV-PyTorch/releases/download/0.1.0/cifar10-77e2644e.pth"
 }
 
 
