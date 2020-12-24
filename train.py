@@ -60,8 +60,8 @@ if __name__ == "__main__":
     # training parameters
     parser.add_argument("--start-epoch", default=0, type=int, metavar="N",
                         help="manual epoch number (useful on restarts)")
-    parser.add_argument("--iters", default=5e5, type=int, metavar="N",
-                        help="The number of iterations is needed in the training of PSNR model. (default: 5e5)")
+    parser.add_argument("--iters", default=100000, type=int, metavar="N",
+                        help="The number of iterations is needed in the training of PSNR model. (default: 100000)")
     parser.add_argument("-b", "--batch-size", default=64, type=int, metavar="N",
                         help="mini-batch size (default: 64), this is the total "
                              "batch size of all GPUs on the current node when "
@@ -70,8 +70,8 @@ if __name__ == "__main__":
                         help="The height / width of the input image to network. (default: 28).")
     parser.add_argument("--channels", type=int, default=1,
                         help="The number of channels of the image. (default: 1).")
-    parser.add_argument("--lr", type=float, default=0.00005,
-                        help="Learning rate. (default:0.00005)")
+    parser.add_argument("--lr", type=float, default=0.0002,
+                        help="Learning rate. (default:0.0002)")
     parser.add_argument("--n_critic", type=int, default=5,
                         help="Number of training steps for discriminator per iter. (Default: 5).")
     args = parser.parse_args()
