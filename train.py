@@ -42,14 +42,14 @@ if __name__ == "__main__":
                         help="Number of data loading workers. (default:8)")
     parser.add_argument("--start-iter", default=0, type=int, metavar="N",
                         help="manual iter number (useful on restarts)")
-    parser.add_argument("--iters", default=500000, type=int, metavar="N",
-                        help="The number of iterations is needed in the training of model. (default: 500000)")
+    parser.add_argument("--iters", default=100000, type=int, metavar="N",
+                        help="The number of iterations is needed in the training of model. (default: 100000)")
     parser.add_argument("-b", "--batch-size", default=64, type=int, metavar="N",
                         help="mini-batch size (default: 64), this is the total "
                              "batch size of all GPUs on the current node when "
                              "using Data Parallel or Distributed Data Parallel.")
-    parser.add_argument("--lr", type=float, default=0.00005,
-                        help="Learning rate. (default:0.00005)")
+    parser.add_argument("--lr", type=float, default=0.0002,
+                        help="Learning rate. (default:0.0002)")
     parser.add_argument("--n_critic", type=int, default=5,
                         help="Number of training steps for discriminator per iter. (Default: 5).")
     parser.add_argument("--image-size", type=int, default=64,

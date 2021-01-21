@@ -130,7 +130,8 @@ class Trainer(object):
         for epoch in range(self.start_epoch, self.epochs):
             progress_bar = tqdm(enumerate(self.dataloader), total=len(self.dataloader))
             for i, data in progress_bar:
-                real_images = data[0].to(self.device)
+                real_images = torch.autograd.Variable(data[0].type(torch.Tensor), requires_grad=True)
+                real_images = real_images.to(self.device)
                 batch_size = real_images.size(0)
 
                 # Sample noise as generator input
@@ -151,7 +152,7 @@ class Trainer(object):
                 fake_images = self.generator(noise)
 
                 # Train with fake
-                fake_output = self.discriminator(fake_images.detach())
+                fake_output = self.discriminator(fake_images)
                 errD_fake = -torch.mean(fake_output)
                 D_G_z1 = fake_output.mean().item()
 
