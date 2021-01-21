@@ -30,7 +30,7 @@ from wgandiv_pytorch import Generator
 from torch.hub import load_state_dict_from_url
 
 model_urls = {
-    "lsun": "https://github.com/Lornatang/WassersteinGAN_DIV-PyTorch/releases/download/0.1.0/WassersteinGAN_lsun-be1a4073.pth"
+    "lsun": "https://github.com/Lornatang/WassersteinGAN_DIV-PyTorch/releases/download/0.1.0/Wasserstein_DIV_lsun-700f9016.pth"
 }
 
 dependencies = ["torch"]
