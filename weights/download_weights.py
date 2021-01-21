@@ -11,7 +11,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-from wgandiv_pytorch.models import mnist
+from wgandiv_pytorch import lsun
 
-model = mnist(pretrained=True)
+model = lsun(pretrained=True)
 print(model)
