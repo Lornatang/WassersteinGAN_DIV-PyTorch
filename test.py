@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(format="[ %(levelname)s ] %(message)s", level=logging.INFO)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="An implementation of WassersteinGAN algorithm using PyTorch framework.")
+    parser = argparse.ArgumentParser(description="An implementation of WassersteinGAN-DIV algorithm using PyTorch framework.")
     parser.add_argument("-a", "--arch", metavar="ARCH", default="lsun",
                         choices=model_names,
                         help="model architecture: " +
@@ -56,7 +56,7 @@ if __name__ == "__main__":
 
     logger.info("Creating Testing Engine")
     device = select_device(args.device)
-    model = torch.hub.load("Lornatang/WassersteinGAN-PyTorch", args.arch, progress=True, pretrained=True, verbose=False)
+    model = torch.hub.load("Lornatang/WassersteinGAN_DIV-PyTorch", args.arch, progress=True, pretrained=True, verbose=False)
     model = model.to(device)
 
     noise = torch.randn(args.num_images, 100, 1, 1, device=device)
